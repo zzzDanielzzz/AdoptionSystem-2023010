@@ -56,3 +56,45 @@ export const saveAppointment = async (req, res) => {
     }); 
   }
 };
+
+export const updateAppointment = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const  data  = req.body;
+
+        const appointment = await Appointment.findByIdAndUpdate(id, data, { new: true });
+
+        res.status(200).json({
+            success: true,
+            msg: 'Cita Actualizada',
+            appointment,
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            msg: 'Error al actualizar la cita',
+            error: err.message
+        });
+    }
+}
+
+export const cancelAppointment = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const appointment = await Appointment.findByIdAndUpdate(id, {status: "CANCELLED"}, {new: true})
+
+  return res.status(200).json({
+            success: true,
+            message: "Cita cancelada",
+            appointment
+        })
+    }catch(err){
+        return res.status(500).json({
+            success: false,
+            message: "Error al eliminar la cita",
+            error: err.message
+        })
+    }
+}
+

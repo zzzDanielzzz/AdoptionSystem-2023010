@@ -8,7 +8,7 @@
     "dev": "node --watch index.js"
   },
   "keywords": [],
-  "author": "Braulio Echeverria",
+  "author": "Daniel Sacol",
   "license": "ISC",
   "type": "module",
   "description": "API para gestion de sistema de adopción de mascotas",
