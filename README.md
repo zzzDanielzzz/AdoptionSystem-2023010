@@ -2,6 +2,26 @@
 
 Esta API está diseñada para gestionar citas para adopciones de mascotas. Incluye funcionalidades para crear, actualizar y listar citas, así como gestionar la información del usuario.
 
+## 📦 Instalación
+
+1. Clona el repositorio:
+
+```CMD
+git clone https://github.com/zzzDanielzzz/AdoptionSystem-2023010.git
+```
+
+2. Instalar las dependencias:
+
+```CMD
+npm i
+```
+
+3. Iniciar el servidor:
+
+```CMD
+npm run dev
+```
+---
 ## Variables de Entorno
 
 Cree un archivo `.env` en el directorio raíz y agregue las siguientes variables:
