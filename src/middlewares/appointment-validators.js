@@ -19,6 +19,7 @@ export const getUserAppointmentsValidator = [
 ]
 
 export const updateAppointmentValidator = [
+    param("id").isMongoId().withMessage("No es un ID valido"),
     body("date").notEmpty().withMessage("La fecha es requerida"),
     validarCampos,
     handleErrors
