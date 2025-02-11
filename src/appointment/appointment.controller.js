@@ -75,7 +75,7 @@ export const getUserAppointments = async (req, res) => {
   try {
       const { uid } = req.params;
       const { limite = 5, desde = 0 } = req.query
-      const query = { user: uid, status: { $in: ["CREATED", "ACCEPTED", "COMPLETED"] } }
+      const query = { user: uid }
       const [total, appointments ] = await Promise.all([
           Appointment.countDocuments(query),
           Appointment.find(query)   
