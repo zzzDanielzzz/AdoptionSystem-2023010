@@ -23,6 +23,7 @@ export const saveAppointment = async (req, res) => {
       });
     }
 
+    // Verificar si ya existe una cita para la misma mascota y usuario en el mismo día
     const existAppointment = await Appointment.findOne({
       pet: data.pet,
       user: data.user,
@@ -36,6 +37,19 @@ export const saveAppointment = async (req, res) => {
       return res.status(400).json({
         success: false,
         msg: "El usuario y la mascota ya tienen una cita para este día",
+      });
+    }
+
+    // Verificar si el usuario tiene otra cita a la misma hora
+    const userConflict = await Appointment.findOne({
+      user: data.user,
+      date: isoDate,
+    });
+
+    if (userConflict) {
+      return res.status(400).json({
+        success: false,
+        msg: "Ya tienes una cita programada para esta hora con otra mascota",
       });
     }
 
@@ -57,12 +71,67 @@ export const saveAppointment = async (req, res) => {
   }
 };
 
+export const getUserAppointments = async (req, res) => {
+  try {
+      const { uid } = req.params;
+      const { limite = 5, desde = 0 } = req.query
+      const query = { user: uid, status: { $in: ["CREATED", "ACCEPTED", "COMPLETED"] } }
+      const [total, appointments ] = await Promise.all([
+          Appointment.countDocuments(query),
+          Appointment.find(query)   
+          .skip(Number(desde))
+          .limit(Number(limite))
+      ])
+      return res.status(200).json({
+          success: true,
+          total,
+          appointments
+      })
+  }catch(err){
+      return res.status(500).json({
+          success: false,
+          message: "Error al obtener las citas",
+          error: err.message
+      })
+  }
+}
+
 export const updateAppointment = async (req, res) => {
     try {
         const { id } = req.params;
-        const  data  = req.body;
+        const { date } = req.body;
 
-        const appointment = await Appointment.findByIdAndUpdate(id, data, { new: true });
+        const currentAppointment = await Appointment.findById(id);
+        if (!currentAppointment) {
+            return res.status(404).json({
+                success: false,
+                msg: "Cita no encontrada"
+            });
+        }
+
+        const isoDate = new Date(date);
+
+        if (isNaN(isoDate.getTime())) {
+          return res.status(400).json({
+            success: false,
+            msg: "Fecha inválida",
+          });
+        }
+    
+        const userConflict = await Appointment.findOne({
+            _id: { $ne: id },
+            user: currentAppointment.user,
+            date: isoDate,
+        });
+
+        if (userConflict) {
+            return res.status(400).json({
+                success: false,
+                msg: "Ya tienes una cita programada para esta hora con otra mascota",
+            });
+        }
+
+        const appointment = await Appointment.findByIdAndUpdate(id, { date: isoDate }, { new: true });
 
         res.status(200).json({
             success: true,
@@ -92,7 +161,7 @@ export const cancelAppointment = async (req, res) => {
     }catch(err){
         return res.status(500).json({
             success: false,
-            message: "Error al eliminar la cita",
+            message: "Error al cancelar la cita",
             error: err.message
         })
     }

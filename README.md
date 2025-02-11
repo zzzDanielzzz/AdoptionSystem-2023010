@@ -78,6 +78,16 @@ JWT_SECRET=<tu_secreto_jwt>
       "surname": "string"
     }
     ```
+  **Actualizar Foto de Perfil**
+  - **URL:** `/adoptionSystem/v1/user/updateProfilePicture/:uid`
+  - **Método:** `PATCH`
+  - **Cuerpo:**
+    ```json
+    {
+      "profilePicture": "file"
+    }
+    ```
+    *Recuerda que la foto debe ser una imagen con formato jpg, jpeg o png, en postman puedes ennviar la foto en el body de tipo form-data con el key "profilePicture"*
 
 ### Mascotas
 
@@ -120,22 +130,25 @@ JWT_SECRET=<tu_secreto_jwt>
       "user": "string"
     }
     ```
+- **Listar Citas de un Usuario**
+  - **URL:** `/adoptionSystem/v1/appointment/getUserAppointments/:uid`
+  - **Método:** `GET`
+  *Recuerda enviar el uid del usuariocomo parametro en la uri*
 
-## Funcionalidades Adicionales
+- **Actualizar Cita**
+  - **URL:** `/adoptionSystem/v1/appointment/updateAppointment/:id`
+  - **Método:** `PATCH`
+  - **Cuerpo:**
+    ```json
+    {
+      "date": "2023-10-15T10:00:00Z"
+    }
+    ```
+    *Recuerda enviar el id de la cita como parametro en la uri y el formato de la fecha debe ser el siguiente: "2023-10-15T10:00:00Z"*
 
-Las siguientes funcionalidades necesitan ser desarrolladas:
+- **Cancelar Cita**
+  - **URL:** `/adoptionSystem/v1/appointment/cancelAppointment/:id`
+  - **Método:** `DELETE`
+  *Recuerda enviar el id de la cita como parametro en la uri*
 
-1. **Actualizar Foto del Usuario**
-   - Descripción: Implementar funcionalidad para actualizar la foto de perfil del usuario.
 
-2. **Listar Citas**
-   - Descripción: Implementar funcionalidad para listar todas las citas de un usuario.
-
-3. **Actualizar Cita**
-   - Descripción: Implementar funcionalidad para actualizar una cita existente.
-
-4. **Cancelar Cita**
-   - Descripción: Implementar funcionalidad para cancelar una cita existente.
-
-5. **Entrega**
-   - Funcionalidades deben ser parte del código fuente y ser entregadas en tiempo y forma indicada en clase.
