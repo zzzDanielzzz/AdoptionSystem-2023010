@@ -1,5 +1,5 @@
 {
-  "name": "adoptionsystem",
+  "name": "proyecto-bimestral",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -11,9 +11,9 @@
   "author": "Daniel Sacol",
   "license": "ISC",
   "type": "module",
-  "description": "API para gestion de sistema de adopción de mascotas",
+  "description": "API para proyecto bimestral I",
   "dependencies": {
-    "adoptionsystem": "file:",
+    "proyecto-bimestral": "file:",
     "argon2": "^0.41.1",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
